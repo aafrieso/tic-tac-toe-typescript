@@ -17,9 +17,13 @@ const winningCombos: number[][] = [
 
 /*---------------------------- Variables (state) ----------------------------*/
 
-
-
-
+let board: (number | null)[];
+let turn: number;
+let winner: boolean;
+let tie: boolean;
+const playerO = "O";
+const playerX = "X";
+let currentPlayer: string = playerO;
 
 /*------------------------ Cached Element References ------------------------*/
 
