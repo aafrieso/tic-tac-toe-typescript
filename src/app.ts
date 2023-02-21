@@ -27,12 +27,23 @@ let currentPlayer: string = playerO;
 
 /*------------------------ Cached Element References ------------------------*/
 
-
-
+const messageEl = document.getElementById("message") as HTMLElement;
+const squareEls = document.querySelectorAll(".sqr") as NodeListOf<HTMLDivElement>;
+const boardEl = document.querySelector(".board") as HTMLElement;
 
 /*----------------------------- Event Listeners -----------------------------*/
 
-
-
+boardEl.addEventListener('click', handleClick);
+resetBtnEl.addEventListener('click', init);
 
 /*-------------------------------- Functions --------------------------------*/
+
+function init(): void {
+  board = [null, null, null, null, null, null, null, null, null];
+  turn = 1;
+  winner = false;
+  tie = false;
+  render();
+}
+
+init();
