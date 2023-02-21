@@ -47,3 +47,33 @@ function init(): void {
 }
 
 init();
+
+function render(): void {
+  updateBoard();
+  updateMessage();
+}
+
+function updateBoard(): void {
+  board.forEach(function(square: number | null, idx: number): void {
+    if (square === 1) {
+      squareEls[idx].innerHTML = "X";
+    } else if (square === -1) {
+      squareEls[idx].innerHTML = "O";
+    } else {
+      squareEls[idx].innerHTML = "";
+    }
+  })
+}
+function updateMessage(): void {
+  if (winner === false && tie === false) {
+    messageEl.textContent = `player ${turn === 1 ? 'X' : 'O'} turn`;
+  } else if (winner === false && tie === true) {
+    messageEl.textContent = `${1 === -1 ? 'X' : 'O'} it's a tie`;
+  } else {
+    messageEl.textContent = `Yay player ${turn === -1 ? 'O' : 'X'} wins!`;
+  }
+}
+
+function placePiece(idx: number): void {
+  board[idx] = turn;
+}
