@@ -20,19 +20,19 @@ const playerO = "O";
 const playerX = "X";
 let currentPlayer: string = playerO;
 
-/*------------------------ Cached Element References ------------------------*/
+// Cached Element References
 
 const messageEl = document.getElementById("message") as HTMLElement;
 const squareEls = document.querySelectorAll(".sqr") as NodeListOf<HTMLDivElement>;
 const boardEl = document.querySelector(".board") as HTMLElement;
 const resetBtnEl = document.querySelector(".reset-btn") as HTMLButtonElement;
 
-/*----------------------------- Event Listeners -----------------------------*/
+// Event Listeners
 
 boardEl.addEventListener('click', handleClick);
 resetBtnEl.addEventListener('click', init);
 
-/*-------------------------------- Functions --------------------------------*/
+// Functions 
 
 function init(): void {
   board = [null, null, null, null, null, null, null, null, null];

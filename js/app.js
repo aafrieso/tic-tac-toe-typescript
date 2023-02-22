@@ -18,15 +18,15 @@ let tie;
 const playerO = "O";
 const playerX = "X";
 let currentPlayer = playerO;
-/*------------------------ Cached Element References ------------------------*/
+// Cached Element References
 const messageEl = document.getElementById("message");
 const squareEls = document.querySelectorAll(".sqr");
 const boardEl = document.querySelector(".board");
 const resetBtnEl = document.querySelector(".reset-btn");
-/*----------------------------- Event Listeners -----------------------------*/
+// Event Listeners
 boardEl.addEventListener('click', handleClick);
 resetBtnEl.addEventListener('click', init);
-/*-------------------------------- Functions --------------------------------*/
+// Functions 
 function init() {
     board = [null, null, null, null, null, null, null, null, null];
     turn = 1;
