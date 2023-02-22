@@ -11,31 +11,21 @@ const winningCombos: number[][] = [
 ];
 
 // Variables (state)
-
-let board: (number | null)[];
-let turn: number;
-let winner: boolean;
-let tie: boolean;
-const playerO = "O";
-const playerX = "X";
-let currentPlayer: string = playerO;
+let board: number[], turn: number, winner: boolean, tie: boolean
 
 // Cached Element References
-
-const messageEl = document.getElementById("message") as HTMLElement;
-const squareEls = document.querySelectorAll(".sqr") as NodeListOf<HTMLDivElement>;
-const boardEl = document.querySelector(".board") as HTMLElement;
-const resetBtnEl = document.querySelector(".reset-btn") as HTMLButtonElement;
+const messgaeEl = document.getElementById('message')!
+const squareEls = document.querySelectorAll(".sqr");
+const boardEl = document.querySelector<HTMLElement>('.board')!
+const resetBtn = document.querySelector<HTMLButtonElement>('.reset-btn');
 
 // Event Listeners
-
-boardEl.addEventListener('click', handleClick);
-resetBtnEl.addEventListener('click', init);
+boardEl?.addEventListener('click', handleClick);
+resetBtn?.addEventListener('click', init);
 
 // Functions 
-
 function init(): void {
-  board = [null, null, null, null, null, null, null, null, null];
+  board = [0, 0, 0, 0, 0, 0, 0, 0, 0];
   turn = 1;
   winner = false;
   tie = false;
@@ -50,52 +40,45 @@ function render(): void {
 }
 
 function updateBoard(): void {
-  board.forEach(function(square: number | null, idx: number): void {
-    if (square === 1) {
-      squareEls[idx].innerHTML = "X";
-    } else if (square === -1) {
-      squareEls[idx].innerHTML = "O";
-    } else {
-      squareEls[idx].innerHTML = "";
-    }
+  board.forEach((square, idx) => {
+    if (square === 1) squareEls[idx].textContent = 'X'
+    else if (square === -1) squareEls[idx].textContent = 'O'
+    else squareEls[idx].textContent = ''
   })
 }
 
 function updateMessage(): void {
-  if (winner === false && tie === false) {
-    messageEl.textContent = `Player ${turn === 1 ? 'X' : 'O'} turn`;
-  } else if (winner === false && tie === true) {
-    messageEl.textContent = `It's a tie`;
+  if (!winner && !tie) {
+    messgaeEl.textContent = `It Is Currently Player ${turn === 1 ? 'X' : 'O'} turn`
+  } else if (!winner && tie) {
+    messgaeEl.textContent = "The game is a tie!"
   } else {
-    messageEl.textContent = `Yay! Player ${turn === -1 ? 'O' : 'X'} wins!`;
+    messgaeEl.textContent = `Congrats! Player ${turn === -1 ? 'O' : 'X'} wins!`
   }
 }
 
-function placePiece(idx: number): void {
-  board[idx] = turn;
+function placePiece(idx: number) {
+  board[idx] = turn
 }
 
 function handleClick(evt: MouseEvent): void {
-  if (winner === true) {
-    return;
-  }
-  
-  const target = evt.target as HTMLDivElement;
-  const sqIdx = target.id;
-  const sliced = parseInt(sqIdx.slice(sqIdx.length - 1));
-  if (board[sliced] === null) {
-    placePiece(sliced);
-    checkForWinner();
-    checkForTie();
-    switchPlayerTurn();
-    render();
-  }
+  if (!(evt.target instanceof HTMLElement)) return
+
+  const sqIdx = parseInt(evt.target.id.slice(2, 3), 10)
+
+  if (isNaN(sqIdx) || board[sqIdx] || winner) return
+
+  placePiece(sqIdx)
+  checkForTie()
+  checkForWinner()
+  switchPlayerTurn()
+  render()
 }
 
 function checkForTie(): void {
-  tie = board.every(function(sqr: number | null): boolean {
-    return sqr !== null;
-  });
+  tie = board.every(sqr => {
+    return sqr !== 0
+  })
 }
 
 function checkForWinner(): void {
@@ -112,7 +95,8 @@ function checkForWinner(): void {
 
 function switchPlayerTurn(): void {
   if (winner === true) {
-    return;
+    return
+  } else {
+    turn *= -1
   }
-  turn *= -1;
 }
