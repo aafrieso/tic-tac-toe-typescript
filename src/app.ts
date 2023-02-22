@@ -1,9 +1,4 @@
-/*-------------------------------- Constants --------------------------------*/
-
-const squareEls = document.querySelectorAll('div');
-const messageEls = document.getElementById('message') as HTMLElement;
-const resetBtnEl = document.querySelector('button') as HTMLButtonElement;
-
+// Constants 
 const winningCombos: number[][] = [
   [0, 1, 2],
   [3, 4, 5],
@@ -15,9 +10,9 @@ const winningCombos: number[][] = [
   [2, 4, 6]
 ];
 
-/*---------------------------- Variables (state) ----------------------------*/
+// Variables (state)
 
-let board: (number | null)[];
+let board: number[];
 let turn: number;
 let winner: boolean;
 let tie: boolean;
@@ -39,7 +34,7 @@ resetBtnEl.addEventListener('click', init);
 /*-------------------------------- Functions --------------------------------*/
 
 function init(): void {
-  board = [null, null, null, null, null, null, null, null, null];
+  board = [0, 0, 0, 0, 0, 0, 0, 0, 0];
   turn = 1;
   winner = false;
   tie = false;
@@ -77,3 +72,41 @@ function updateMessage(): void {
 function placePiece(idx: number): void {
   board[idx] = turn;
 }
+
+function handleClick(evt: MouseEvent): void {
+  if (winner === true) {
+    return;
+  
+  const target = evt.target as HTMLDivElement;
+  const sqIdx = target.id;
+  const sliced = parseInt(sqIdx.slice(sqIdx.length - 1));
+  if (board[sliced] === null) {
+    placePiece(sliced);
+    checkForWinner();
+    checkForTie();
+    switchPlayerTurn();
+    render();
+}
+
+function checkForTie(): void {
+  tie = board.every(function(sqr: number | null): boolean {
+    return sqr !== null;
+  });
+}
+
+function checkForWinner(): void {
+  winningCombos.forEach(function(arr: number[]): void {
+    let winning = 0;
+    arr.forEach(function(el: number): void {
+      winning += board[el];
+    });
+    if (Math.abs(winning) === 3) {
+      winner = true;
+    }
+  });
+}
+
+function switchPlayerTurn(): void {
+  if (winner === true) {
+    return;
+  } else
