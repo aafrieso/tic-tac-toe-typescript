@@ -1,5 +1,6 @@
+"use strict";
 // Constants 
-var winningCombos = [
+const winningCombos = [
     [0, 1, 2],
     [3, 4, 5],
     [6, 7, 8],
@@ -10,18 +11,18 @@ var winningCombos = [
     [2, 4, 6]
 ];
 // Variables (state)
-var board;
-var turn;
-var winner;
-var tie;
-var playerO = "O";
-var playerX = "X";
-var currentPlayer = playerO;
+let board;
+let turn;
+let winner;
+let tie;
+const playerO = "O";
+const playerX = "X";
+let currentPlayer = playerO;
 /*------------------------ Cached Element References ------------------------*/
-var messageEl = document.getElementById("message");
-var squareEls = document.querySelectorAll(".sqr");
-var boardEl = document.querySelector(".board");
-var resetBtnEl = document.querySelector(".reset-btn");
+const messageEl = document.getElementById("message");
+const squareEls = document.querySelectorAll(".sqr");
+const boardEl = document.querySelector(".board");
+const resetBtnEl = document.querySelector(".reset-btn");
 /*----------------------------- Event Listeners -----------------------------*/
 boardEl.addEventListener('click', handleClick);
 resetBtnEl.addEventListener('click', init);
@@ -53,13 +54,13 @@ function updateBoard() {
 }
 function updateMessage() {
     if (winner === false && tie === false) {
-        messageEl.textContent = "Player ".concat(turn === 1 ? 'X' : 'O', " turn");
+        messageEl.textContent = `Player ${turn === 1 ? 'X' : 'O'} turn`;
     }
     else if (winner === false && tie === true) {
-        messageEl.textContent = "It's a tie";
+        messageEl.textContent = `It's a tie`;
     }
     else {
-        messageEl.textContent = "Yay! Player ".concat(turn === -1 ? 'O' : 'X', " wins!");
+        messageEl.textContent = `Yay! Player ${turn === -1 ? 'O' : 'X'} wins!`;
     }
 }
 function placePiece(idx) {
@@ -69,9 +70,9 @@ function handleClick(evt) {
     if (winner === true) {
         return;
     }
-    var target = evt.target;
-    var sqIdx = target.id;
-    var sliced = parseInt(sqIdx.slice(sqIdx.length - 1));
+    const target = evt.target;
+    const sqIdx = target.id;
+    const sliced = parseInt(sqIdx.slice(sqIdx.length - 1));
     if (board[sliced] === null) {
         placePiece(sliced);
         checkForWinner();
@@ -87,7 +88,7 @@ function checkForTie() {
 }
 function checkForWinner() {
     winningCombos.forEach(function (arr) {
-        var winning = 0;
+        let winning = 0;
         arr.forEach(function (el) {
             winning += board[el] || 0;
         });
